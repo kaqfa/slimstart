@@ -1,16 +1,24 @@
 <?php
 require './vendor/autoload.php';
 
-use \Psr\Http\Message\ServerRequestInterface as Request;
-use \Psr\Http\Message\ResponseInterface as Response;
+use Slim\Views\PhpRenderer;
 
-$app = new \Slim\App();
+require 'config.php';
 
-$app->get('/hello/{name}', function (Request $request, Response $response, array $args) {
-    $name = $args['name'];
-    $response->getBody()->write("<H1>Hello, $name</H1>");
+$app = new \Slim\App($c);
 
-    return $response;
-});
+$container = $app->getContainer();
+$container['tpl'] = new PhpRenderer("./templates");
+
+$container['pdo'] = function ($c) {
+    $settings = $c->get('settings')['db'];
+    $pdo = new PDO("mysql:host=" . $settings['host'] . ";dbname=" . $settings['dbname'],
+                   $settings['user'], $settings['pass']);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+    return $pdo;
+};
+
+require 'router.php';
 
 $app->run();
