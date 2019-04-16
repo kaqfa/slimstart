@@ -1,14 +1,22 @@
 <?php
-use \Psr\Http\Message\ServerRequestInterface as Request;
-use \Psr\Http\Message\ResponseInterface as Response;
+use Slim\Views\PhpRenderer;
 
 require './vendor/autoload.php';
 
-$app = new \Slim\App;
-$app->get('/hello/{name}', function (Request $request, Response $response, array $args) {
-    $name = $args['name'];
-    $response->getBody()->write("Hello, $name");
 
-    return $response;
-});
+$configuration = [
+    'settings' => [
+        'displayErrorDetails' => true,
+    ],
+];
+
+$c = new \Slim\Container($configuration);
+
+$app = new \Slim\App($c);
+
+$container = $app->getContainer();
+$container['renderer'] = new PhpRenderer("./templates");
+
+require 'router.php';
+
 $app->run();
