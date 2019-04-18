@@ -2,7 +2,8 @@
 
 $configuration = [
     'settings' => [
-        'displayErrorDetails' => true,
+		'base_url' => '/slimstart/sample_pdo',
+		'displayErrorDetails' => true,
         "db" => [
 	        "host" => "localhost",
 	        "dbname" => "sakila",

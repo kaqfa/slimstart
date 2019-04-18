@@ -1,14 +1,14 @@
 <?php
-require '../vendor/autoload.php';
-
 use Slim\Views\PhpRenderer;
 
-require 'config.php';
-
-$app = new \Slim\App($c);
-
 $container = $app->getContainer();
-$container['tpl'] = new PhpRenderer("./templates");
+
+$container['tpl'] = function($c){
+    $render = new PhpRenderer("./templates");
+    $render->addAttribute('baseUrl', $c->get('settings')['base_url']);
+    return $render;
+};
+
 $container['pdo'] = function ($c) {
     $settings = $c->get('settings')['db'];
     $pdo = new PDO("mysql:host=" . $settings['host'] . ";dbname=" . $settings['dbname'],
@@ -17,7 +17,3 @@ $container['pdo'] = function ($c) {
     $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
     return $pdo;
 };
-
-require 'router.php';
-
-$app->run();
