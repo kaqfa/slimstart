@@ -1,21 +1,11 @@
 <?php
-use Slim\Views\PhpRenderer;
+require './vendor/autoload.php';
 
-$app = new \Slim\App();
-
-
-$configuration = [
-    'settings' => [
-        'displayErrorDetails' => true,
-    ],
-];
-
-$c = new \Slim\Container($configuration);
+require 'config.php';
 
 $app = new \Slim\App($c);
 
-$container = $app->getContainer();
-$container['renderer'] = new PhpRenderer("./templates");
+require 'dependencies.php';
 
 require 'router.php';
 
