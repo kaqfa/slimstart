@@ -1,4 +1,29 @@
 {
+    "name": "kaqfa/slimstart",
+    "description": "Template slim framework untuk belajar php",
+    "keywords": ["Slim", "PDO", "MVC", "Framework", "PHP"],
+    "homepage": "https://github.com/kaqfa/slimstart",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Fahri Firdausillah",
+            "email": "fahri@dsn.dinus.ac.id",
+            "homepage": "http://fahri.blog.dinus.ac.id"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/src"
+        }
+    },
+    "scripts": {
+        "post-install-cmd": [
+            "composer dumpautoload -o"
+        ],
+        "post-update-cmd": [
+            "composer dumpautoload -o"
+        ]
+    },
     "require": {
         "slim/slim": "^3.11",
         "jeremykendall/slim-auth": "^1.0",

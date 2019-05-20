@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
-<a class="navbar-brand" href="<?=$baseUrl?>/">Site Name</a>
+<a class="navbar-brand" href="<?=$baseUrl?>/">Aplikasi Rental</a>
 <button class="navbar-toggler" type="button" data-toggle="collapse" 
     data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" 
     aria-expanded="false" aria-label="Toggle navigation">
@@ -12,6 +12,9 @@
     </li>
     <li class="nav-item active">
         <a class="nav-link" href="<?=$baseUrl?>/films">List Film</a>
+    </li>
+    <li class="nav-item active">
+        <a class="nav-link" href="<?=$baseUrl?>/customers">List Customer</a>
     </li>
     </ul>
 </div>

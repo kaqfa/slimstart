@@ -3,10 +3,23 @@
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 
-$app->get('/', function ($request, $response, $args) {
-    $data['key'] = 'val';
-    return $this->tpl->render($response, 'home.php', $data);
-});
+$auth = function (Request $request, Response $response, $next) {
+        if(isset($_SESSION['login'])) {
+            $response = $next($request, $response);
+            return $response;
+        } else {
+            return $response->withRedirect($request->getUri()->getBasePath().'/login');
+        }
+    };
+
+$app->get('/', 'App\Controllers\AdminController:index')->add($auth);
+$app->get('/tables', 'App\Controllers\AdminController:tables')->add($auth);
+
+$app->get('/login', 'App\Controllers\LoginController:getLogin');
+$app->post('/login', 'App\Controllers\LoginController:postLogin');
+$app->get('/register', 'App\Controllers\LoginController:getRegister');
+$app->post('/register', 'App\Controllers\LoginController:postRegister');
+$app->get('/logout', 'App\Controllers\LoginController:getLogout');
 
 $app->get('/films', function ($request, $response, $args){
     $data['site_title'] = 'List Film :: Aplikasi Rental';
