@@ -2,6 +2,9 @@
 use Slim\Views\PhpRenderer;
 use Slim\Handlers\NotFound; 
 
+use \Psr\Http\Message\ServerRequestInterface as Request;
+use \Psr\Http\Message\ResponseInterface as Response;
+
 
 $container = $app->getContainer();
 
@@ -29,7 +32,7 @@ class NotFoundHandler extends NotFound {
         $this->view = $view; 
     }
 
-    public function __invoke($request, $response) { 
+    public function __invoke(Request $request, Response $response) { 
         parent::__invoke($request, $response);
         $this->view->render($response, '404.php');
         return $response->withStatus(404); 
@@ -53,6 +56,12 @@ $container['App\Models\Staff'] = function ($c) {
     );
 };
 
+$container['App\Models\City'] = function ($c) {
+    return new App\Models\City(
+        $c->get('pdo')
+    );
+};
+
 # -----------------------------------------------------------------------------
 # Factories Controllers
 # -----------------------------------------------------------------------------
@@ -68,3 +77,8 @@ $container['App\Controllers\LoginController'] = function ($c) {
     );
 };
 
+$container['App\Controllers\CityController'] = function ($c) {
+    return new App\Controllers\CityController(
+		$c->get('tpl'), $c->get('App\Models\City')
+    );
+};

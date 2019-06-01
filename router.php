@@ -15,6 +15,13 @@ $auth = function (Request $request, Response $response, $next) {
 $app->get('/', 'App\Controllers\AdminController:index')->add($auth);
 $app->get('/tables', 'App\Controllers\AdminController:tables')->add($auth);
 
+$app->get('/city', 'App\Controllers\CityController:index')->add($auth);
+$app->get('/city/add', 'App\Controllers\CityController:getAdd')->add($auth);
+$app->post('/city/add', 'App\Controllers\CityController:postAdd')->add($auth);
+$app->get('/city/edit/{city_id}', 'App\Controllers\CityController:getEdit')->add($auth);
+$app->post('/city/edit/{city_id}', 'App\Controllers\CityController:postEdit')->add($auth);
+$app->get('/city/del/{city_id}', 'App\Controllers\CityController:getDel')->add($auth);
+
 $app->get('/login', 'App\Controllers\LoginController:getLogin');
 $app->post('/login', 'App\Controllers\LoginController:postLogin');
 $app->get('/register', 'App\Controllers\LoginController:getRegister');
